@@ -27,6 +27,8 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Error : %v\n", err)
 			os.Exit(1)
 		}
+		fmt.Println("Response status : ", resp.Status)
+		fmt.Println("==============================================")
 		fmt.Printf("%s\n", body)
 
 	}
