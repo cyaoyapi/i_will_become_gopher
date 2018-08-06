@@ -18,11 +18,17 @@ func main() {
 	for _, url := range os.Args[1:] {
 		go fetch(url, ch) // start the goroutine
 	}
-
-	for range os.Args[1:] {
-		fmt.Println(<-ch) // receive from chacnnel ch
+	logfile, err := os.Create("log")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error : %v\n", err)
+		os.Exit(1)
 	}
-	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
+	for range os.Args[1:] {
+		io.WriteString(logfile, <-ch)
+	}
+
+	fmt.Fprintf(logfile, "\n%.2fs elapsed\n", time.Since(start).Seconds())
+	logfile.Close()
 }
 
 func fetch(url string, ch chan<- string) {
@@ -39,5 +45,5 @@ func fetch(url string, ch chan<- string) {
 		return
 	}
 	secs := time.Since(start).Seconds()
-	ch <- fmt.Sprintf("%.2fs %7d %s", secs, nbytes, url)
+	ch <- fmt.Sprintf("%.2fs %7d %s\n", secs, nbytes, url)
 }
