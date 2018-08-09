@@ -5,7 +5,7 @@ package main
 
 import (
 	"fmt"
-	"i_will_become_gopher/gopl.io/chp2/tempconv"
+	"i_will_become_gopher/gopl.io/chp2/tempconv" // local path
 	"os"
 	"strconv"
 )
